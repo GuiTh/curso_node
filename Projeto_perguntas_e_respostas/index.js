@@ -4,8 +4,9 @@ const connection = require('./db/database')
 const app = express()
 const questionModel = require('./db/Question')
 const answerModel = require('./db/Answer')
-//CONEXAO COM O BANCO DE DADOS
 
+
+//CONEXAO COM O BANCO DE DADOS
 connection.authenticate().then(() =>{
     console.log('conexao feita com o banco de dados!')
 }).catch((error) => {
@@ -50,16 +51,20 @@ app.post('/saveQuestion', (req,res) =>{
 
 app.get('/pergunta/:id', (req, res) =>{ 
     var id = req.params.id;
+
     questionModel.findOne({
-        where: {id: id}
+        where: {id: id},
+        
     }).then(pergunta =>{
         if(pergunta != undefined){
 
             answerModel.findAll({
-                where:{perguntaId: pergunta.id}
+                where:{perguntaId: pergunta.id},
+                order:[['id', 'DESC']]
             }).then(respostas =>{
                 res.render("pergunta", {
-                    pergunta
+                    pergunta: pergunta,
+                    respostas: respostas,
                 })
 
             })
