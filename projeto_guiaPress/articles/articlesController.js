@@ -4,8 +4,13 @@ const router = express.Router()
 const Category = require('../categories/category');
 const Article = require('./articles');
 
-router.get('/articles', (req,res)=>{
-    res.send('Rota de artigos')
+router.get('/admin/articles', (req,res)=>{
+    Article.findAll({
+        include:[{model:Category}]
+    }).then((articles) =>{
+        res.render("admin/articles/index", {articles})    
+
+    })
 });
 router.get('/admin/articles/new', (req,res) =>{
     Category.findAll().then(categories =>{
@@ -26,6 +31,25 @@ router.post('/articles/save', (req,res) =>{
     }).then(()=>{
         res.redirect("/admin/articles")
     })
+})
+
+router.post('/articles/delete', (req,res)=>{
+    var id = req.body.id
+    if(id != undefined){
+        if(!isNaN(id)){
+            Article.destroy({
+                where:{
+                    id:id
+                }
+            }).then(() =>{
+                res.redirect('/admin/categories')
+            })
+        }else{
+            res.redirect('/admin/categories')
+        }
+    }else{
+        res.redirect('/admin/categories')
+    }
 })
 
 module.exports = router;
