@@ -1,1 +1,15 @@
-<h1>Formulario</h1>
+<%- include ('../../partials/header.ejs') %>
+<%- include ('../../partials/homeNavbar.ejs') %>
+
+
+
+
+<form action="/admin/users/new" method="post">
+    <input type="email" name="email" id="">
+    <input type="password" name="password" id="">
+    <button class="btn btn-primary">salvar</button>
+</form>
+
+
+
+<%- include ('../../partials/footer.ejs') %>

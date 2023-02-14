@@ -1,0 +1,16 @@
+<%- include ('../../partials/header.ejs') %>
+<%- include ('../../partials/homeNavbar.ejs') %>
+
+
+
+<div class="container">
+    <% users.forEach((user) =>{ %>
+        <div class="usuario">
+            <span><%=user.email%></span>
+            <span><%=user.password%></span>
+        </div>
+    <%}) %>
+</div>
+
+
+<%- include ('../../partials/footer.ejs') %>
