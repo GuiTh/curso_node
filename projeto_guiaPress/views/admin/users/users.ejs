@@ -4,10 +4,15 @@
 
 
 <div class="container">
+    <a class="btn btn-success mt-4"href="/admin/users/create">Criar Novo usuario</a>
+<hr>
     <% users.forEach((user) =>{ %>
-        <div class="usuario">
-            <span><%=user.email%></span>
-            <span><%=user.password%></span>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <span><%=user.email%></span><br>
+                <span><%=user.password%></span>
+            </div>
         </div>
     <%}) %>
 </div>

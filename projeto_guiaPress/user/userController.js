@@ -1,10 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('./User')
-
-router.get('/admin/users', (req,res)=>{
-    res.send('listagem de usuarios')
-})
+const bcrypt = require('bcrypt')
 
 router.get('/admin/users/create', (req,res)=>{
     res.render('admin/users/create')
@@ -17,14 +14,30 @@ router.get('/admin/users', (req,res)=>{
 })
 
 router.post('/admin/users/new', (req,res)=>{
-    var email = req.body.email
-    var password = req.body.password
-    User.create({
-        email:email,
-        password:password
-    }).then(()=>{
-        res.redirect('/admin/users')
-    })
+
+
+    User.findOne({where:{email:email}}).then(user =>{
+        if(user == undefined){
+            var email = req.body.email
+            var password = req.body.password
+            //gerando uma dificuldade maior para a senha
+            var salt = bcrypt.genSaltSync(10)
+            var hash = bcrypt.hashSync(password, salt)
+
+            User.create({
+                email:email,
+                password:hash
+            }).then(()=>{
+                res.redirect('/admin/users')
+            }).catch((err)=>{
+                res.redirect('/')
+            })
+            } else{
+                    res.redirect('/admin/users/create')
+                }
+            })
+
+
 })
 
 module.exports = router
