@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const connection = require('./database/database')
+const session = require('express-session')
 
 const categoriesController = require('./categories/CategoriesController')
 const articlesController = require('./articles/articlesController')
@@ -12,6 +13,14 @@ const Category = require('./categories/category')
 
 //View engine
 app.set('view engine', 'ejs')
+
+//sessions
+app.use(session({
+    //express session tem storage, storage é onde a sessao ficara salva, por padrao é ser salvo na memoria ram
+    //as sessoes sao salvas mas nao sao destruidas, isso pode causar problemas pois sobrecarrega a memoria ram do computador
+    secret:"qualquerCoisa", 
+    cookie:{ maxAge: 30000}
+}))
 
 //Static
 app.use(express.static('public'))
@@ -33,6 +42,7 @@ connection.authenticate()
 app.use('/', categoriesController)
 app.use('/', articlesController)
 app.use('/', usersController)
+
 
 app.get('/', (req,res)=>{
     Article.findAll({

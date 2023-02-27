@@ -1,9 +1,9 @@
-const  Sequelize = require('sequelize')
+const Sequelize = require("sequelize");
 
-const conection = new Sequelize('guia_press', 'root','123456',{
-    host:'localhost',
-    dialect:'mysql',
-    tomezine: '-03:00'
-})
+const connection = new Sequelize('guia_press','root','123456',{
+    host: 'localhost',
+    dialect: 'mysql',
+    timezone: "-03:00"
+});
 
-module.exports = conection
+module.exports = connection;
